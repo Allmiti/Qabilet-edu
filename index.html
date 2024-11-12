@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
+    <title>Регистрация на сайте</title>
+    
     <!-- Подключение Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
     <style>
-        /* Стили для формы регистрации */
+        /* Основные стили */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -16,21 +18,21 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f4f4f4;
+            background-color: #f0f2f5;
         }
         
         .registration-container {
-            width: 300px;
+            width: 350px;
             padding: 20px;
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
         
         h2 {
             margin-bottom: 20px;
-            color: #4CAF50;
+            color: #333;
         }
         
         input[type="email"], input[type="password"] {
@@ -38,16 +40,19 @@
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 5px;
+            font-size: 16px;
         }
         
         button {
             width: 100%;
             padding: 10px;
+            margin-top: 10px;
             background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
         }
         
@@ -57,7 +62,7 @@
         
         #message {
             margin-top: 10px;
-            color: #ff0000;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -69,8 +74,8 @@
         
         <!-- Форма регистрации -->
         <form id="signup-form">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Пароль" required>
+            <input type="email" id="email" placeholder="Введите email" required>
+            <input type="password" id="password" placeholder="Введите пароль" required>
             <button type="submit">Зарегистрироваться</button>
         </form>
         
@@ -79,45 +84,46 @@
     </div>
 
     <script>
-        // Конфигурация Firebase (замените на свои данные)
+        // Подключение Firebase — замените данные конфигурации на ваши
         const firebaseConfig = {
             apiKey: "AIzaSyBZeeNENIxgP6B4UICT6oa6UHRlkEWehK8",
             authDomain: "qulaq-1b2b8.firebaseapp.com",
             projectId: "qulaq-1b2b8",
             storageBucket: "qulaq-1b2b8.firebasestorage.app",
             messagingSenderId: "97029004996",
-            appId: "1:97029004996:web:f14d7e13990b5dc8637391"
+            appId: "1:97029004996:web:f14d7e13990b5dc8637391
         };
         
         // Инициализация Firebase
-        const app = firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         
         // Обработка формы регистрации
         document.getElementById("signup-form").addEventListener("submit", function(event) {
-            event.preventDefault(); // Предотвращаем перезагрузку страницы
+            event.preventDefault();
             
-            // Получаем email и password из формы
+            // Получение email и password из формы
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
             const messageElement = document.getElementById("message");
             
             // Очищаем сообщение перед отправкой
-            messageElement.innerText = "";
+            messageElement.innerText = "Процесс регистрации...";
+            messageElement.style.color = "#333";
 
-            // Регистрация пользователя через Firebase
+            // Регистрация пользователя
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     messageElement.style.color = "green";
-                    messageElement.innerText = "Регистрация успешна!";
+                    messageElement.innerText = "Регистрация прошла успешно!";
+                    console.log("Пользователь создан:", userCredential.user);
                 })
                 .catch((error) => {
                     messageElement.style.color = "red";
                     messageElement.innerText = "Ошибка: " + error.message;
+                    console.error("Ошибка регистрации:", error);
                 });
         });
-		console.log("Firebase initialized:", firebase.apps.length > 0);
     </script>
-	
 </body>
 </html>
