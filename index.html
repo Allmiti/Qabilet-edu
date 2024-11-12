@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Карусель с размытием соседних изображений</title>
+    <title>Карусель с размытием боковых изображений</title>
     <style>
         /* Основные стили */
         body {
@@ -51,36 +51,34 @@
             width: 80%;
             max-width: 800px;
             height: 400px;
-            perspective: 1000px; /* Перспектива для 3D эффекта */
             overflow: hidden;
             margin: 20px 0;
+            display: flex;
+            align-items: center;
+			z-index: 10;
         }
 
         .carousel-track {
             display: flex;
-            transition: transform 1s ease; /* Плавный переход */
-            transform-style: preserve-3d; /* Сохранение 3D эффекта */
-            position: relative;
-            left: -33.33%; /* Выравнивание, чтобы центральное изображение было по центру */
+            transition: transform 0.6s ease; /* Плавный переход */
         }
 
         .carousel img {
             width: 100%;
-            max-width: 800px;
-            flex: 0 0 33.33%; /* Каждый слайд занимает треть контейнера */
-            backface-visibility: hidden;
-            transition: transform 1s ease, filter 1s ease, opacity 1s ease;
+            max-width: 600px;
+            margin: 0 10px;
+            transition: transform 0.6s ease, filter 0.6s ease, opacity 0.6s ease;
         }
 
-        /* Центральное и боковые изображения */
+        /* Стили для центрального и боковых изображений */
         .carousel img.center {
             transform: scale(1);
             filter: blur(0);
             opacity: 1;
         }
         .carousel img.side {
-            transform: scale(0.9);
-            filter: blur(5px);
+            transform: scale(0.8);
+            filter: blur(3px);
             opacity: 0.6;
         }
 
@@ -95,7 +93,6 @@
             padding: 10px;
             cursor: pointer;
             font-size: 24px;
-			z-index: 10;
         }
 
         .carousel-button.left {
@@ -153,9 +150,9 @@
     <div class="carousel">
         <button class="carousel-button left" onclick="prevImage()">❮</button>
         <div class="carousel-track">
-            <img src="https://via.placeholder.com/1000x400/ff7f7f/333333?text=Изображение+1" alt="Изображение 1" class="side">
-            <img src="https://via.placeholder.com/1000x400/7f7fff/333333?text=Изображение+2" alt="Изображение 2" class="center">
-            <img src="https://via.placeholder.com/1000x400/7fff7f/333333?text=Изображение+3" alt="Изображение 3" class="side">
+            <img src="https://via.placeholder.com/600x400/ff7f7f/333333?text=Изображение+1" alt="Изображение 1" class="side">
+            <img src="https://via.placeholder.com/600x400/7f7fff/333333?text=Изображение+2" alt="Изображение 2" class="center">
+            <img src="https://via.placeholder.com/600x400/7fff7f/333333?text=Изображение+3" alt="Изображение 3" class="side">
         </div>
         <button class="carousel-button right" onclick="nextImage()">❯</button>
     </div>
@@ -184,18 +181,17 @@
         const totalImages = images.length;
 
         function updateCarousel() {
-            const offset = -(currentIndex - 1) * 100;
-            track.style.transform = `translateX(${offset}%)`;
+            // Смещаем трек так, чтобы центральное изображение находилось по центру
+            const offset = -(currentIndex - 1) * (images[0].clientWidth + 20); // 20px - отступы
+            track.style.transform = `translateX(${offset}px)`;
 
             images.forEach((img, index) => {
-                // Убираем классы center и side со всех изображений
                 img.classList.remove('center', 'side');
 
+                // Назначаем центральное и боковые изображения
                 if (index === currentIndex) {
-                    // Центральное изображение
                     img.classList.add('center');
                 } else {
-                    // Боковые изображения
                     img.classList.add('side');
                 }
             });
@@ -207,7 +203,7 @@
         }
 
         function prevImage() {
-            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+            currentIndex = (currentIndex - 1) % totalImages;
             updateCarousel();
         }
 
