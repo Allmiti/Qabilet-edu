@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пример страницы</title>
+    <title>3D Карусель с анимацией</title>
     <style>
         /* Основные стили */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Стиль баннера */
@@ -19,6 +22,7 @@
             padding: 20px;
             text-align: center;
             position: relative;
+            width: 100%;
         }
 
         .auth-buttons {
@@ -44,21 +48,27 @@
         /* Стиль карусели */
         .carousel {
             position: relative;
-            width: 100%;
+            width: 80%;
             max-width: 800px;
-            margin: 20px auto;
+            height: 400px;
+            perspective: 1000px; /* Перспектива для 3D эффекта */
             overflow: hidden;
-            text-align: center;
+            margin: 20px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 1s ease; /* Плавный переход */
+            transform-style: preserve-3d; /* Сохранение 3D эффекта */
         }
 
         .carousel img {
             width: 100%;
-            max-height: 400px;
-            display: none;
-        }
-
-        .carousel img.active {
-            display: block;
+            max-width: 800px;
+            flex: 0 0 100%;
+            backface-visibility: hidden; /* Убирает заднюю сторону */
+            transform: scale(0.9); /* Уменьшение изображения для 3D эффекта */
+            transition: transform 1s ease; /* Анимация масштабирования */
         }
 
         /* Кнопки карусели */
@@ -71,6 +81,7 @@
             border: none;
             padding: 10px;
             cursor: pointer;
+            font-size: 24px;
         }
 
         .carousel-button.left {
@@ -89,6 +100,8 @@
             padding: 40px;
             background-color: #f4f4f4;
             text-align: left;
+            width: 80%;
+            max-width: 800px;
         }
 
         .info-section img {
@@ -103,6 +116,7 @@
             color: white;
             padding: 20px;
             text-align: center;
+            width: 100%;
         }
     </style>
 </head>
@@ -124,9 +138,11 @@
     <!-- Карусель изображений с кнопками переключения -->
     <div class="carousel">
         <button class="carousel-button left" onclick="prevImage()">❮</button>
-        <img src="https://via.placeholder.com/1000x400/ff7f7f/333333?text=Изображение+1" alt="Изображение 1" class="active">
-        <img src="https://via.placeholder.com/1000x400/7f7fff/333333?text=Изображение+2" alt="Изображение 2">
-        <img src="https://via.placeholder.com/1000x400/7fff7f/333333?text=Изображение+3" alt="Изображение 3">
+        <div class="carousel-track">
+            <img src="https://via.placeholder.com/1000x400/ff7f7f/333333?text=Изображение+1" alt="Изображение 1">
+            <img src="https://via.placeholder.com/1000x400/7f7fff/333333?text=Изображение+2" alt="Изображение 2">
+            <img src="https://via.placeholder.com/1000x400/7fff7f/333333?text=Изображение+3" alt="Изображение 3">
+        </div>
         <button class="carousel-button right" onclick="nextImage()">❯</button>
     </div>
 
@@ -149,21 +165,29 @@
     <script>
         // JavaScript для управления каруселью
         let currentIndex = 0;
+        const track = document.querySelector('.carousel-track');
         const images = document.querySelectorAll('.carousel img');
+        const totalImages = images.length;
 
-        function showImage(index) {
-            images[currentIndex].classList.remove('active');
-            currentIndex = (index + images.length) % images.length;
-            images[currentIndex].classList.add('active');
+        function updateCarousel() {
+            const offset = -currentIndex * 100;
+            track.style.transform = `translateX(${offset}%) rotateY(${currentIndex * 15}deg)`;
+            images.forEach((img, index) => {
+                img.style.transform = index === currentIndex ? 'scale(1)' : 'scale(0.9)'; // Эффект увеличения активного изображения
+            });
         }
 
         function nextImage() {
-            showImage(currentIndex + 1);
+            currentIndex = (currentIndex + 1) % totalImages;
+            updateCarousel();
         }
 
         function prevImage() {
-            showImage(currentIndex - 1);
+            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+            updateCarousel();
         }
+
+        updateCarousel();
     </script>
 
 </body>
