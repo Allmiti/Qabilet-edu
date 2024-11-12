@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход на сайт</title>
+    <title>Регистрация на сайте</title>
     
     <!-- Подключение Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -21,7 +21,7 @@
             background-color: #f0f2f5;
         }
         
-        .login-container {
+        .registration-container {
             width: 350px;
             padding: 20px;
             background-color: white;
@@ -68,15 +68,15 @@
 </head>
 <body>
 
-    <!-- Контейнер для формы входа -->
-    <div class="login-container">
-        <h2>Вход</h2>
+    <!-- Контейнер для формы регистрации -->
+    <div class="registration-container">
+        <h2>Регистрация</h2>
         
-        <!-- Форма входа -->
-        <form id="login-form">
+        <!-- Форма регистрации -->
+        <form id="signup-form">
             <input type="email" id="email" placeholder="Введите email" required>
             <input type="password" id="password" placeholder="Введите пароль" required>
-            <button type="submit">Войти</button>
+            <button type="submit">Зарегистрироваться</button>
         </form>
         
         <!-- Сообщение об ошибке или успехе -->
@@ -98,8 +98,8 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         
-        // Обработка формы входа
-        document.getElementById("login-form").addEventListener("submit", function(event) {
+        // Обработка формы регистрации
+        document.getElementById("signup-form").addEventListener("submit", function(event) {
             event.preventDefault();
             
             // Получение email и password из формы
@@ -108,23 +108,20 @@
             const messageElement = document.getElementById("message");
             
             // Очищаем сообщение перед отправкой
-            messageElement.innerText = "Процесс входа...";
+            messageElement.innerText = "Процесс регистрации...";
             messageElement.style.color = "#333";
 
-            // Вход пользователя через Firebase
-            auth.signInWithEmailAndPassword(email, password)
+            // Регистрация пользователя
+            auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     messageElement.style.color = "green";
-                    messageElement.innerText = "Вход выполнен успешно!";
-                    console.log("Пользователь вошел:", userCredential.user);
-                    
-                    // Перенаправление пользователя или выполнение других действий
-                    // window.location.href = 'homepage.html'; // Пример перенаправления
+                    messageElement.innerText = "Регистрация прошла успешно!";
+                    console.log("Пользователь создан:", userCredential.user);
                 })
                 .catch((error) => {
                     messageElement.style.color = "red";
                     messageElement.innerText = "Ошибка: " + error.message;
-                    console.error("Ошибка входа:", error);
+                    console.error("Ошибка регистрации:", error);
                 });
         });
     </script>
