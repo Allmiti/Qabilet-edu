@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход на сайт</title>
+    
+    <!-- Подключение Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <style>
+        /* Основные стили */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        
+        .login-container {
+            width: 350px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        #message {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Контейнер для формы входа -->
+    <div class="login-container">
+        <h2>Вход</h2>
+        
+        <!-- Форма входа -->
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Введите email" required>
+            <input type="password" id="password" placeholder="Введите пароль" required>
+            <button type="submit">Войти</button>
+        </form>
+        
+        <!-- Сообщение об ошибке или успехе -->
+        <p id="message"></p>
+    </div>
+
+    <script>
+        // Подключение Firebase — замените данные конфигурации на ваши
+        const firebaseConfig = {
+            apiKey: "AIzaSyBZeeNENIxgP6B4UICT6oa6UHRlkEWehK8",
+            authDomain: "qulaq-1b2b8.firebaseapp.com",
+            projectId: "qulaq-1b2b8",
+            storageBucket: "qulaq-1b2b8.firebasestorage.app",
+            messagingSenderId: "97029004996",
+            appId: "1:97029004996:web:f14d7e13990b5dc8637391"
+        };
+        
+        // Инициализация Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        
+        // Обработка формы входа
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            // Получение email и password из формы
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const messageElement = document.getElementById("message");
+            
+            // Очищаем сообщение перед отправкой
+            messageElement.innerText = "Процесс входа...";
+            messageElement.style.color = "#333";
+
+            // Вход пользователя через Firebase
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    messageElement.style.color = "green";
+                    messageElement.innerText = "Вход выполнен успешно!";
+                    console.log("Пользователь вошел:", userCredential.user);
+                    
+                    // Перенаправление пользователя или выполнение других действий
+                    // window.location.href = 'homepage.html'; // Пример перенаправления
+                })
+                .catch((error) => {
+                    messageElement.style.color = "red";
+                    messageElement.innerText = "Ошибка: " + error.message;
+                    console.error("Ошибка входа:", error);
+                });
+        });
+    </script>
+</body>
+</html>
