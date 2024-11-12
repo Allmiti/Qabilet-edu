@@ -171,9 +171,12 @@
 
         function updateCarousel() {
             const offset = -currentIndex * 100;
-            track.style.transform = `translateX(${offset}%) rotateY(${currentIndex * 15}deg)`;
+            track.style.transform = `translateX(${offset}%)`;
+            
             images.forEach((img, index) => {
-                img.style.transform = index === currentIndex ? 'scale(1)' : 'scale(0.9)'; // Эффект увеличения активного изображения
+                // Эффект увеличения активного изображения
+                img.style.transform = index === currentIndex ? 'scale(1) rotateY(0deg)' : 'scale(0.9) rotateY(15deg)';
+                img.style.opacity = index === currentIndex ? '1' : '0.5'; // Добавление прозрачности для неактивных изображений
             });
         }
 
