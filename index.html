@@ -203,7 +203,7 @@
         }
 
         function prevImage() {
-            currentIndex = (currentIndex - 1) % totalImages;
+            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
             updateCarousel();
         }
 
