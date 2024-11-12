@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ацц</title>
+    <title>3D Карусель с размытием боковых изображений</title>
     <style>
         /* Основные стили */
         body {
@@ -17,8 +17,8 @@
 
         /* Стиль баннера */
         .banner {
-            background-color: #87CEFA;
-            color: #FF8C00;
+            background-color: #4CAF50;
+            color: white;
             padding: 20px;
             text-align: center;
             position: relative;
@@ -68,7 +68,7 @@
             flex: 0 0 100%;
             backface-visibility: hidden; /* Убирает заднюю сторону */
             transform: scale(0.9); /* Уменьшение изображения для 3D эффекта */
-            transition: transform 1s ease; /* Анимация масштабирования */
+            transition: transform 1s ease, filter 1s ease; /* Анимация масштабирования и размытия */
         }
 
         /* Кнопки карусели */
@@ -125,7 +125,8 @@
 
     <!-- Баннер с кнопками входа и регистрации -->
     <div class="banner">
-        <h1>qabilet-education</h1>
+        <h1>Добро пожаловать на наш сайт</h1>
+        <p>Здесь вы найдете лучшие предложения!</p>
         <div class="auth-buttons">
             <button onclick="alert('Вход')">Вход</button>
             <button onclick="alert('Регистрация')">Регистрация</button>
@@ -150,7 +151,7 @@
     <div class="info-section">
         <div>
             <h2>О нашем сайте</h2>
-            <p>лалалаалалалалалалалалалалалалалалалалалала</p>
+            <p>Здесь вы найдете много интересной информации, включая последние новости, полезные статьи и эксклюзивные предложения.</p>
         </div>
         <img src="https://via.placeholder.com/300" alt="Фотография о нас">
     </div>
@@ -172,11 +173,17 @@
         function updateCarousel() {
             const offset = -currentIndex * 100;
             track.style.transform = `translateX(${offset}%)`;
-            
+
             images.forEach((img, index) => {
-                // Эффект увеличения активного изображения
-                img.style.transform = index === currentIndex ? 'scale(1) rotateY(0deg)' : 'scale(0.9) rotateY(15deg)';
-                img.style.opacity = index === currentIndex ? '1' : '0.5'; // Добавление прозрачности для неактивных изображений
+                if (index === currentIndex) {
+                    // Центральное изображение
+                    img.style.transform = 'scale(1)';
+                    img.style.filter = 'blur(0)';
+                } else {
+                    // Боковые изображения
+                    img.style.transform = 'scale(0.9)';
+                    img.style.filter = 'blur(5px)';
+                }
             });
         }
 
@@ -186,7 +193,7 @@
         }
 
         function prevImage() {
-            currentIndex = (currentIndex - 1) % totalImages; // Исправление ошибки отрицательного индекса
+            currentIndex = (currentIndex - 1) % totalImages;
             updateCarousel();
         }
 
