@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<!-- Подключение Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js"></script>
+
+<script>
+    // Конфигурация Firebase
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID"
+    };
+    // Инициализация Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Функция регистрации
+    function signUp(email, password) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                alert("Регистрация успешна!");
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+    }
+
+    // Функция входа
+    function signIn(email, password) {
+        auth.signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                alert("Вход выполнен!");
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+    }
+</script>
