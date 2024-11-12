@@ -4,33 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
-    <!-- Подключаем Firebase SDK -->
+    <!-- Подключение Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js"></script>
+    <style>
+        /* Стили для формы регистрации */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        
+        .registration-container {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+        
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        #message {
+            margin-top: 10px;
+            color: #ff0000;
+        }
+    </style>
 </head>
 <body>
-    <h2>Регистрация</h2>
-    
-    <!-- Форма регистрации -->
-    <form id="signup-form">
-        <label for="email">Email:</label>
-        <input type="email" id="email" required>
+
+    <!-- Контейнер для формы регистрации -->
+    <div class="registration-container">
+        <h2>Регистрация</h2>
         
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" required>
+        <!-- Форма регистрации -->
+        <form id="signup-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Пароль" required>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
         
-        <button type="submit">Зарегистрироваться</button>
-    </form>
-    
-    <!-- Сообщение об ошибке или успехе -->
-    <p id="message"></p>
-    
+        <!-- Сообщение об ошибке или успехе -->
+        <p id="message"></p>
+    </div>
+
     <script>
-        // Конфигурация Firebase (замените на ваши данные)
+        // Конфигурация Firebase (замените на свои данные)
         const firebaseConfig = {
             apiKey: "AIzaSyBZeeNENIxgP6B4UICT6oa6UHRlkEWehK8",
             authDomain: "qulaq-1b2b8.firebaseapp.com",
-            projectId: "qulaq-1b2b8"
+            projectId: "qulaq-1b2b8",
+            storageBucket: "qulaq-1b2b8.firebasestorage.app",
+            messagingSenderId: "97029004996",
+            appId: "1:97029004996:web:f14d7e13990b5dc8637391"
         };
         
         // Инициализация Firebase
@@ -44,14 +100,20 @@
             // Получаем email и password из формы
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
+            const messageElement = document.getElementById("message");
             
+            // Очищаем сообщение перед отправкой
+            messageElement.innerText = "";
+
             // Регистрация пользователя через Firebase
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
-                    document.getElementById("message").innerText = "Регистрация успешна!";
+                    messageElement.style.color = "green";
+                    messageElement.innerText = "Регистрация успешна!";
                 })
                 .catch((error) => {
-                    document.getElementById("message").innerText = "Ошибка: " + error.message;
+                    messageElement.style.color = "red";
+                    messageElement.innerText = "Ошибка: " + error.message;
                 });
         });
     </script>
