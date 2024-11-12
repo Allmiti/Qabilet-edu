@@ -186,7 +186,7 @@
         }
 
         function prevImage() {
-            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+            currentIndex = (currentIndex - 1 + totalImages) % totalImages; // Исправление ошибки отрицательного индекса
             updateCarousel();
         }
 

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пример страницы</title>
+    <style>
+        /* Основные стили */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Стиль баннера */
+        .banner {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .auth-buttons button {
+            background-color: #fff;
+            border: none;
+            color: #4CAF50;
+            padding: 10px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        /* Стиль карусели */
+        .carousel {
+            width: 100%;
+            overflow: hidden;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .carousel img {
+            width: 100%;
+            max-height: 400px;
+            transition: transform 0.5s ease;
+        }
+
+        /* Стили для информации */
+        .info-section {
+            padding: 40px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        .info-section img {
+            width: 300px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* Стили для контактов */
+        .contact-section {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Баннер с кнопками входа и регистрации -->
+    <div class="banner">
+        <h1>Добро пожаловать на наш сайт</h1>
+        <p>Здесь вы найдете лучшие предложения!</p>
+        <div class="auth-buttons">
+            <button onclick="alert('Вход')">Вход</button>
+            <button onclick="alert('Регистрация')">Регистрация</button>
+        </div>
+    </div>
+
+    <!-- Карусель изображений -->
+    <div class="carousel">
+        <img src="https://via.placeholder.com/1000x400/ff7f7f/333333?text=Изображение+1" alt="Изображение 1">
+        <img src="https://via.placeholder.com/1000x400/7f7fff/333333?text=Изображение+2" alt="Изображение 2" style="display:none;">
+        <img src="https://via.placeholder.com/1000x400/7fff7f/333333?text=Изображение+3" alt="Изображение 3" style="display:none;">
+    </div>
+
+    <!-- Секция с информацией -->
+    <div class="info-section">
+        <h2>О нашем сайте</h2>
+        <p>Здесь вы найдете много интересной информации, включая последние новости, полезные статьи и эксклюзивные предложения.</p>
+        <img src="https://via.placeholder.com/300" alt="Фотография о нас">
+    </div>
+
+    <!-- Блок контактов -->
+    <div class="contact-section">
+        <h3>Свяжитесь с нами</h3>
+        <p>Email: example@example.com</p>
+        <p>Телефон: +7 (123) 456-7890</p>
+    </div>
+
+    <script>
+        // JavaScript для карусели
+        let currentIndex = 0;
+        const images = document.querySelectorAll('.carousel img');
+
+        function showNextImage() {
+            images[currentIndex].style.display = 'none'; // Скрываем текущее изображение
+            currentIndex = (currentIndex + 1) % images.length; // Переходим к следующему изображению
+            images[currentIndex].style.display = 'block'; // Показываем новое изображение
+        }
+
+        // Автоматическая смена изображений каждые 3 секунды
+        setInterval(showNextImage, 3000);
+    </script>
+
+</body>
+</html>
