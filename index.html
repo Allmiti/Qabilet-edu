@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
         }
-        
+
         /* Стиль баннера */
         .banner {
             background-color: #4CAF50;
@@ -20,13 +20,13 @@
             text-align: center;
             position: relative;
         }
-        
+
         .auth-buttons {
             position: absolute;
             top: 20px;
             right: 20px;
         }
-        
+
         .auth-buttons button {
             background-color: #fff;
             border: none;
@@ -36,31 +36,65 @@
             cursor: pointer;
         }
 
+        /* Отступ между баннером и каруселью */
+        .section-spacing {
+            padding: 20px;
+        }
+
         /* Стиль карусели */
         .carousel {
+            position: relative;
             width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
             overflow: hidden;
-            margin: 20px 0;
             text-align: center;
         }
 
         .carousel img {
             width: 100%;
             max-height: 400px;
-            transition: transform 0.5s ease;
+            display: none;
+        }
+
+        .carousel img.active {
+            display: block;
+        }
+
+        /* Кнопки карусели */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .carousel-button.left {
+            left: 10px;
+        }
+
+        .carousel-button.right {
+            right: 10px;
         }
 
         /* Стили для информации */
         .info-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 40px;
-            text-align: center;
             background-color: #f4f4f4;
+            text-align: left;
         }
 
         .info-section img {
             width: 300px;
             border-radius: 10px;
-            margin-top: 20px;
+            margin-left: 20px;
         }
 
         /* Стили для контактов */
@@ -84,17 +118,24 @@
         </div>
     </div>
 
-    <!-- Карусель изображений -->
+    <!-- Отступ между баннером и каруселью -->
+    <div class="section-spacing"></div>
+
+    <!-- Карусель изображений с кнопками переключения -->
     <div class="carousel">
-        <img src="https://via.placeholder.com/1000x400/ff7f7f/333333?text=Изображение+1" alt="Изображение 1">
-        <img src="https://via.placeholder.com/1000x400/7f7fff/333333?text=Изображение+2" alt="Изображение 2" style="display:none;">
-        <img src="https://via.placeholder.com/1000x400/7fff7f/333333?text=Изображение+3" alt="Изображение 3" style="display:none;">
+        <button class="carousel-button left" onclick="prevImage()">❮</button>
+        <img src="https://via.placeholder.com/1000x400/ff7f7f/333333?text=Изображение+1" alt="Изображение 1" class="active">
+        <img src="https://via.placeholder.com/1000x400/7f7fff/333333?text=Изображение+2" alt="Изображение 2">
+        <img src="https://via.placeholder.com/1000x400/7fff7f/333333?text=Изображение+3" alt="Изображение 3">
+        <button class="carousel-button right" onclick="nextImage()">❯</button>
     </div>
 
-    <!-- Секция с информацией -->
+    <!-- Секция с информацией, текст слева и картинка справа -->
     <div class="info-section">
-        <h2>О нашем сайте</h2>
-        <p>Здесь вы найдете много интересной информации, включая последние новости, полезные статьи и эксклюзивные предложения.</p>
+        <div>
+            <h2>О нашем сайте</h2>
+            <p>Здесь вы найдете много интересной информации, включая последние новости, полезные статьи и эксклюзивные предложения.</p>
+        </div>
         <img src="https://via.placeholder.com/300" alt="Фотография о нас">
     </div>
 
@@ -106,18 +147,23 @@
     </div>
 
     <script>
-        // JavaScript для карусели
+        // JavaScript для управления каруселью
         let currentIndex = 0;
         const images = document.querySelectorAll('.carousel img');
 
-        function showNextImage() {
-            images[currentIndex].style.display = 'none'; // Скрываем текущее изображение
-            currentIndex = (currentIndex + 1) % images.length; // Переходим к следующему изображению
-            images[currentIndex].style.display = 'block'; // Показываем новое изображение
+        function showImage(index) {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (index + images.length) % images.length;
+            images[currentIndex].classList.add('active');
         }
 
-        // Автоматическая смена изображений каждые 3 секунды
-        setInterval(showNextImage, 3000);
+        function nextImage() {
+            showImage(currentIndex + 1);
+        }
+
+        function prevImage() {
+            showImage(currentIndex - 1);
+        }
     </script>
 
 </body>
