@@ -3,213 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Карусель с размытием боковых изображений</title>
+    <title>Главная страница с ИИ-проводником</title>
     <style>
-        /* Основные стили */
+        /* Основные стили для сайта */
         body {
             font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-			background-color: #F0FFF0;
+            background-color: #f0f2f5;
         }
 
-        /* Стиль баннера */
-        .banner {
-            background-color: #87CEFA;
-            color: white;
-            padding: 20px;
+        .main-container {
             text-align: center;
-            position: relative;
-            width: 100%;
         }
 
-        .auth-buttons {
-            position: absolute;
-            top: 20px;
+        h1 {
+            color: #333;
+        }
+
+        /* Стили кнопки */
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        /* Стили чат-бота */
+        .chatbot {
+            position: fixed;
+            bottom: 20px;
             right: 20px;
-        }
-
-        .auth-buttons button {
-            background-color: #fff;
-            border: none;
-            color: #4CAF50;
-            padding: 10px;
-            margin-left: 10px;
-            cursor: pointer;
-        }
-
-        /* Отступ между баннером и каруселью */
-        .section-spacing {
-            padding: 20px;
-        }
-
-        /* Стиль карусели */
-        .carousel {
-            position: relative;
-            width: 80%;
-            max-width: 800px;
-            height: 400px;
-            overflow: hidden;
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-			z-index: 10;
-        }
-
-        .carousel-track {
-            display: flex;
-            transition: transform 0.6s ease; /* Плавный переход */
-        }
-
-        .carousel img {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 10px;
-            transition: transform 0.6s ease, filter 0.6s ease, opacity 0.6s ease;
-        }
-
-        /* Стили для центрального и боковых изображений */
-        .carousel img.center {
-            transform: scale(1);
-            filter: blur(0);
-            opacity: 1;
-        }
-        .carousel img.side {
-            transform: scale(0.8);
-            filter: blur(3px);
-            opacity: 0.6;
-        }
-
-        /* Кнопки карусели */
-        .carousel-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        .carousel-button.left {
-            left: 10px;
-        }
-
-        .carousel-button.right {
-            right: 10px;
-        }
-
-        /* Стили для информации */
-        .info-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px;
-            background-color: #f4f4f4;
-            text-align: left;
-            width: 80%;
-            max-width: 800px;
-        }
-
-        .info-section img {
             width: 300px;
+            max-width: 100%;
+            background-color: white;
+            border: 1px solid #ddd;
             border-radius: 10px;
-            margin-left: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
         }
 
-        /* Стили для контактов */
-        .contact-section {
-            background-color: #333;
+        .chatbot-header {
+            background-color: #4CAF50;
             color: white;
-            padding: 20px;
+            padding: 10px;
             text-align: center;
-            width: 100%;
+            font-size: 18px;
+        }
+
+        .chatbot-messages {
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        .chatbot-input-container {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            font-size: 14px;
+        }
+
+        .chatbot-send {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Баннер с кнопками входа и регистрации -->
-    <div class="banner">
-        <h1>Добро пожаловать на наш сайт</h1>
-        <p>Здесь вы найдете лучшие предложения!</p>
-        <div class="nav-button">
-            <a href="indeeex.html" class="nav-button">Вход</a>
-            <a href="indeeex.html" class="nav-button">Регистрация</a>
-        </div>
+    <div class="main-container">
+        <h1>Добро пожаловать на наш сайт!</h1>
+        <a href="login.html" class="button">Вход</a>
     </div>
 
-    <!-- Отступ между баннером и каруселью -->
-    <div class="section-spacing"></div>
+    <!-- Кнопка для открытия/закрытия чат-бота -->
+    <button class="chatbot-toggle" onclick="toggleChat()">Помощник</button>
 
-    <!-- Карусель изображений с кнопками переключения -->
-    <div class="carousel">
-        <button class="carousel-button left" onclick="prevImage()">❮</button>
-        <div class="carousel-track">
-            <img src="https://via.placeholder.com/600x400/ff7f7f/333333?text=Изображение+1" alt="Изображение 1" class="side">
-            <img src="https://via.placeholder.com/600x400/7f7fff/333333?text=Изображение+2" alt="Изображение 2" class="center">
-            <img src="https://via.placeholder.com/600x400/7fff7f/333333?text=Изображение+3" alt="Изображение 3" class="side">
+    <!-- Контейнер чат-бота -->
+    <div class="chatbot" id="chatbot">
+        <div class="chatbot-header">Ваш помощник</div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <p>ИИ: Привет! Я ваш виртуальный помощник. Чем могу помочь?</p>
         </div>
-        <button class="carousel-button right" onclick="nextImage()">❯</button>
-    </div>
-
-    <!-- Секция с информацией, текст слева и картинка справа -->
-    <div class="info-section">
-        <div>
-            <h2>О нашем сайте</h2>
-            <p>Здесь вы найдете много интересной информации, включая последние новости, полезные статьи и эксклюзивные предложения.</p>
+        <div class="chatbot-input-container">
+            <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Напишите сообщение...">
+            <button class="chatbot-send" onclick="sendMessage()">Отправить</button>
         </div>
-        <img src="https://via.placeholder.com/300" alt="Фотография о нас">
-    </div>
-
-    <!-- Блок контактов -->
-    <div class="contact-section">
-        <h3>Свяжитесь с нами</h3>
-        <p>Email: example@example.com</p>
-        <p>Телефон: +7 (123) 456-7890</p>
     </div>
 
     <script>
-        // JavaScript для управления каруселью
-        let currentIndex = 1;
-        const track = document.querySelector('.carousel-track');
-        const images = document.querySelectorAll('.carousel img');
-        const totalImages = images.length;
-
-        function updateCarousel() {
-            // Смещаем трек так, чтобы центральное изображение находилось по центру
-            const offset = -(currentIndex - 1) * (images[0].clientWidth + 20); // 20px - отступы
-            track.style.transform = `translateX(${offset}px)`;
-
-            images.forEach((img, index) => {
-                img.classList.remove('center', 'side');
-
-                // Назначаем центральное и боковые изображения
-                if (index === currentIndex) {
-                    img.classList.add('center');
-                } else {
-                    img.classList.add('side');
-                }
-            });
+        // Функция для открытия/закрытия чат-бота
+        function toggleChat() {
+            const chatbot = document.getElementById("chatbot");
+            chatbot.style.display = chatbot.style.display === "none" ? "flex" : "none";
         }
 
-        function nextImage() {
-            currentIndex = (currentIndex + 1) % totalImages;
-            updateCarousel();
+        // Функция отправки сообщения
+        function sendMessage() {
+            const inputElement = document.getElementById("chatbot-input");
+            const messageText = inputElement.value.trim();
+            const messagesContainer = document.getElementById("chatbot-messages");
+
+            if (messageText === "") return;
+
+            // Отображаем сообщение пользователя
+            const userMessage = document.createElement("p");
+            userMessage.textContent = "Вы: " + messageText;
+            messagesContainer.appendChild(userMessage);
+
+            // Ответ чат-бота на основе сообщения пользователя
+            const botMessage = document.createElement("p");
+            botMessage.textContent = "ИИ: " + getBotResponse(messageText);
+            messagesContainer.appendChild(botMessage);
+
+            // Прокручиваем вниз для новых сообщений
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Очищаем поле ввода
+            inputElement.value = "";
         }
 
-        function prevImage() {
-            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
-            updateCarousel();
-        }
+        // Функция для генерации ответов чат-бота
+        function getBotResponse(message) {
+            message = message.toLowerCase();
 
-        updateCarousel();
+            if (message.includes("вход")) {
+                window.location.href = "login.html";
+                return "Переход на страницу входа...";
+            } else if (message.includes("регистрация")) {
+                return "Для регистрации перейдите на главную страницу и нажмите 'Регистрация'.";
+            } else if (message.includes("помощь") || message.includes("что ты умеешь")) {
+                return "Я могу помочь с навигацией по сайту, войти на страницу входа или регистрации. Просто скажите, что вам нужно!";
+            } else {
+                return "Извините, я не совсем понял ваш вопрос. Пожалуйста, попробуйте переформулировать.";
+            }
+        }
     </script>
-
 </body>
 </html>
