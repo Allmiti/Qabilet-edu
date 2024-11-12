@@ -124,8 +124,7 @@
 
     <!-- Баннер с кнопками входа и регистрации -->
     <div class="banner">
-        <h1>Добро пожаловать на наш сайт</h1>
-        <p>Здесь вы найдете лучшие предложения!</p>
+        <h1>qabilet-education</h1>
         <div class="auth-buttons">
             <button onclick="alert('Вход')">Вход</button>
             <button onclick="alert('Регистрация')">Регистрация</button>
@@ -186,7 +185,7 @@
         }
 
         function prevImage() {
-            currentIndex = (currentIndex - 1 + totalImages) % totalImages; // Исправление ошибки отрицательного индекса
+            currentIndex = (currentIndex - 1) % totalImages; // Исправление ошибки отрицательного индекса
             updateCarousel();
         }
 
