@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Карусель с размытием боковых изображений</title>
+    <title>Карусель с размытием соседних изображений</title>
     <style>
         /* Основные стили */
         body {
@@ -60,15 +60,28 @@
             display: flex;
             transition: transform 1s ease; /* Плавный переход */
             transform-style: preserve-3d; /* Сохранение 3D эффекта */
+            position: relative;
+            left: -33.33%; /* Выравнивание, чтобы центральное изображение было по центру */
         }
 
         .carousel img {
             width: 100%;
             max-width: 800px;
-            flex: 0 0 100%;
-            backface-visibility: hidden; /* Убирает заднюю сторону */
-            transform: scale(0.9); /* Уменьшение изображения для 3D эффекта */
-            transition: transform 1s ease, filter 1s ease; /* Анимация масштабирования и размытия */
+            flex: 0 0 33.33%; /* Каждый слайд занимает треть контейнера */
+            backface-visibility: hidden;
+            transition: transform 1s ease, filter 1s ease, opacity 1s ease;
+        }
+
+        /* Центральное и боковые изображения */
+        .carousel img.center {
+            transform: scale(1);
+            filter: blur(0);
+            opacity: 1;
+        }
+        .carousel img.side {
+            transform: scale(0.9);
+            filter: blur(5px);
+            opacity: 0.6;
         }
 
         /* Кнопки карусели */
@@ -140,9 +153,9 @@
     <div class="carousel">
         <button class="carousel-button left" onclick="prevImage()">❮</button>
         <div class="carousel-track">
-            <img src="https://via.placeholder.com/1000x400/ff7f7f/333333?text=Изображение+1" alt="Изображение 1">
-            <img src="https://via.placeholder.com/1000x400/7f7fff/333333?text=Изображение+2" alt="Изображение 2">
-            <img src="https://via.placeholder.com/1000x400/7fff7f/333333?text=Изображение+3" alt="Изображение 3">
+            <img src="https://via.placeholder.com/1000x400/ff7f7f/333333?text=Изображение+1" alt="Изображение 1" class="side">
+            <img src="https://via.placeholder.com/1000x400/7f7fff/333333?text=Изображение+2" alt="Изображение 2" class="center">
+            <img src="https://via.placeholder.com/1000x400/7fff7f/333333?text=Изображение+3" alt="Изображение 3" class="side">
         </div>
         <button class="carousel-button right" onclick="nextImage()">❯</button>
     </div>
@@ -165,24 +178,25 @@
 
     <script>
         // JavaScript для управления каруселью
-        let currentIndex = 0;
+        let currentIndex = 1;
         const track = document.querySelector('.carousel-track');
         const images = document.querySelectorAll('.carousel img');
         const totalImages = images.length;
 
         function updateCarousel() {
-            const offset = -currentIndex * 100;
+            const offset = -(currentIndex - 1) * 100;
             track.style.transform = `translateX(${offset}%)`;
 
             images.forEach((img, index) => {
+                // Убираем классы center и side со всех изображений
+                img.classList.remove('center', 'side');
+
                 if (index === currentIndex) {
                     // Центральное изображение
-                    img.style.transform = 'scale(1)';
-                    img.style.filter = 'blur(0)';
+                    img.classList.add('center');
                 } else {
                     // Боковые изображения
-                    img.style.transform = 'scale(0.9)';
-                    img.style.filter = 'blur(5px)';
+                    img.classList.add('side');
                 }
             });
         }
@@ -193,7 +207,7 @@
         }
 
         function prevImage() {
-            currentIndex = (currentIndex - 1) % totalImages;
+            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
             updateCarousel();
         }
 
