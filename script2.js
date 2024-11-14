@@ -2,7 +2,7 @@
 const firebaseConfig = {
     apiKey: "AIzaSyBZeeNENIxgP6B4UICT6oa6UHRlkEWehK8",
     authDomain: "qulaq-1b2b8.firebaseapp.com",
-	databaseURL: "https://qulaq-1b2b8-default-rtdb.europe-west1.firebasedatabase.app/",
+	databaseURL: "https://qulaq-1b2b8-default-rtdb.europe-west1.firebasedatabase.app"
     projectId: "qulaq-1b2b8",
     storageBucket: "qulaq-1b2b8.firebasestorage.app",
     messagingSenderId: "97029004996",
