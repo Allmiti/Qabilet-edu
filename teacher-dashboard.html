@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ввод оценок для учителя</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Боковая выдвижная панель -->
+    <div class="sidebar">
+        <button class="close-btn">&times;</button>
+        <a href="#">Классы</a>
+        <a href="#">Профиль</a>
+        <a href="#">Материалы</a>
+    </div>
+
+    <!-- Кнопка для открытия боковой панели -->
+    <button class="open-btn">&#9776; Меню</button>
+
+    <!-- Основная таблица для ввода оценок -->
+    <div class="content">
+        <h1>Ввод оценок</h1>
+        <table>
+            <tr>
+                <th>Имя ученика</th>
+                <th>Предмет</th>
+                <th>Оценка</th>
+                <th>Сохранить</th>
+            </tr>
+            <tr>
+                <td>Иван Иванов</td>
+                <td>Математика</td>
+                <td><input type="text" placeholder="Оценка"></td>
+                <td><button>Сохранить</button></td>
+            </tr>
+            <!-- Добавьте других учеников по аналогии -->
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
