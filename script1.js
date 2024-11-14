@@ -5,8 +5,8 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
     // Определяем, на какую страницу перенаправить в зависимости от роли
     if (role === 'student') {
-        window.location.href = 'student-dashboard.html';
+        window.location.href = 'student.html';
     } else if (role === 'teacher') {
-        window.location.href = 'teacher-dashboard.html';
+        window.location.href = 'teacher.html';
     }
 });
