@@ -6,13 +6,13 @@ import 'firebase/firestore'
 import 'firebase/auth'
 
 firebase.initializeApp({
-        apiKey: "AIzaSyBZeeNENIxgP6B4UICT6oa6UHRlkEWehK8",
-        authDomain: "qulaq-1b2b8.firebaseapp.com",
-        projectId: "qulaq-1b2b8",
-        storageBucket: "qulaq-1b2b8.firebasestorage.app",
-        messagingSenderId: "97029004996",
-        appId: "1:97029004996:web:f14d7e13990b5dc8637391",
-        measurementId: "G-40Q62CTBX8"
+        apiKey: "AIzaSyBr1JWix2dc-VoBCB7fHVSGS9KUL0X0Wis",
+        authDomain: "chat-react-fd366.firebaseapp.com",
+        projectId: "chat-react-fd366",
+        storageBucket: "chat-react-fd366.appspot.com",
+        messagingSenderId: "1097930185910",
+        appId: "1:1097930185910:web:206a1158ff7075b6381a17",
+        measurementId: "G-Q9W58YQ4XL"
     }
 );
 
