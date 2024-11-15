@@ -137,10 +137,11 @@
     <!-- Баннер с кнопками входа и регистрации -->
     <div class="banner">
         <h1>Добро пожаловать на наш сайт</h1>
-        <p>Здесь вы найдете лучшие предложения!</p>
         <div class="nav-button">
             <a href="login.html" class="nav-button">Вход</a>
+			<audio id="click-sound" src="click-sound.mp3"></audio>
             <a href="register.html" class="nav-button">Регистрация</a>
+			<audio id="click-sound" src="click-sound.mp3"></audio>
         </div>
     </div>
 
@@ -209,6 +210,19 @@
         }
 
         updateCarousel();
+    const button = document.getElementById('nav-button');
+    const clickSound = document.getElementById('click-sound');
+
+    button.addEventListener('click', () => {
+        // Проигрывание звука
+        clickSound.play();
+
+        // Задержка перед переходом, чтобы звук успел проиграться
+        setTimeout(() => {
+            window.location.href = 'https://example.com'; // URL целевой страницы
+        }, 500); // Установите задержку в зависимости от длины звука (в миллисекундах)
+    });
+
     </script>
 
 </body>

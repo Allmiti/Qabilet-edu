@@ -13,19 +13,37 @@
         <img src="material.jpeg" alt="Кнопка 1">
         <div class="overlay">Материалы</div>
     </a>
+	<audio id="click-sound" src="click-sound.mp3"></audio>
     <a href="student-dashboard.html" class="image-button">
         <img src="dashboard.jpeg" alt="Кнопка 2">
         <div class="overlay">Дневник</div>
     </a>
+	<audio id="click-sound" src="click-sound.mp3"></audio>
     <a href="page3.html" class="image-button">
         <img src="chat.jpeg" alt="Кнопка 3">
         <div class="overlay">Чат</div>
     </a>
+	<audio id="click-sound" src="click-sound.mp3"></audio>
     <a href="student-profile.html" class="image-button">
         <img src="profile.jpeg" alt="Кнопка 4">
         <div class="overlay">Профиль</div>
     </a>
+	<audio id="click-sound" src="click-sound.mp3"></audio>
 </div>
+<script>
+    const button = document.getElementById('navigate-btn');
+    const clickSound = document.getElementById('click-sound');
+
+    button.addEventListener('click', () => {
+        // Проигрывание звука
+        clickSound.play();
+
+        // Задержка перед переходом, чтобы звук успел проиграться
+        setTimeout(() => {
+            window.location.href = 'https://example.com'; // URL целевой страницы
+        }, 500); // Установите задержку в зависимости от длины звука (в миллисекундах)
+    });
+</script>
 
 </body>
 </html>
