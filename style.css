@@ -18,3 +18,11 @@ table, th, td {
     padding: 8px;
     text-align: left;
 }
+.banner {
+            background-color: #87CEFA;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }

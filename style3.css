@@ -57,3 +57,11 @@ h1 {
     margin: 0;
     color: #666;
 }
+.banner {
+            background-color: #87CEFA;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }

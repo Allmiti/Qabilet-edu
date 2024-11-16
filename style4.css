@@ -46,4 +46,11 @@ body, html {
 .full-button:hover {
     background-color: #0288d1; /* Темный голубой при наведении */
 }
-
+.banner {
+            background-color: #87CEFA;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }
