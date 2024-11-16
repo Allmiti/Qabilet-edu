@@ -5,7 +5,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #87CEFA;
+    background-color: #ADD8E6;
 }
 
 .form-container {
@@ -53,7 +53,7 @@ a {
     text-decoration: none;
 }
 .banner {
-            background-color: #00BFFF;
+            background-color: #87CEFA;
             color: white;
             padding: 20px;
             text-align: center;
