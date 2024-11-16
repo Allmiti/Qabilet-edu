@@ -1,0 +1,175 @@
+﻿
+<!DOCTYPE html >
+<html lang="en" >
+<head >
+<meta charset="UTF-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+<title > Chat Interface</title >
+<style >
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #B0E0E6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.chat-container {
+    background-color: #ffffff;
+    width: 400px;
+    height: 600px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Chat window */
+.chat-window {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Message bubble */
+.message {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+    .message.user {
+        justify-content: flex-end;
+    }
+
+.message-bubble {
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 70%;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.message.user .message-bubble {
+    background-color: #4caf50;
+    color: white;
+}
+
+.message.bot .message-bubble {
+    background-color: #ddd;
+    color: #333;
+}
+
+/* Input area */
+.input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #fafafa;
+}
+
+    .input-area input {
+        flex-grow: 1;
+        padding: 10px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .input-area button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+        .input-area button:hover {
+            background-color: #45a049;
+        }
+
+        .input-area input:focus, .input-area button:focus {
+            outline: none;
+        }
+
+</style >
+</head >
+<body >
+
+<div class="chat-container" >
+<!-- Chat Window -->
+<div class="chat-window" id="chat-window" >
+<!-- Example of a user and bot message -->
+<div class="message user" >
+<div class="message-bubble" > Hello! How are you?</div >
+</div >
+<div class="message bot" >
+<div class="message-bubble" > I'm good, thanks! How can I assist you today?</div>
+</div >
+</div >
+<!-- Input Area -->
+<div class="input-area" >
+<input type="text" id="message-input" placeholder="Type your message..." / >
+<button id="send-button" > Send</button >
+</div >
+</div >
+
+<script >
+// Get references to the chat window and input elements
+const chatWindow = document.getElementById("chat-window");
+const messageInput = document.getElementById("message-input");
+const sendButton = document.getElementById("send-button");
+
+// Function to send message
+function sendMessage() {
+    const messageText = messageInput.value.trim();
+    if (messageText === "") return;
+    // Add user message to chat const userMessage = document.createElement("div");
+    userMessage .classList.add("message", "user");
+    const userBubble = document.createElement("div");
+    userBubble .classList.add("message-bubble");
+    userBubble .textContent = messageText;
+    userMessage .appendChild(userBubble);
+    chatWindow .appendChild(userMessage);
+    // Scroll to the bottom of the chat chatWindow.scrollTop = chatWindow.scrollHeight;
+    // Clear input field messageInput.value = "";
+    // Simulate bot response after a short delay setTimeout(() => {
+      const botMessage = document.createElement("div");
+      botMessage.classList.add("message", "bot");
+      const botBubble = document.createElement("div");
+      botBubble.classList.add("message-bubble");
+      botBubble.textContent = "This is an automated response.";
+      botMessage.appendChild(botBubble);
+
+      chatWindow.appendChild(botMessage);
+
+      // Scroll to the bottom of the chat
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }, 1000);
+}
+
+// Event listener for send button
+sendButton.addEventListener("click", sendMessage);
+
+// Event listener for Enter key
+messageInput.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  });
+</script >
+
+</body >
+</html >
