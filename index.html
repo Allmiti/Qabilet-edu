@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Карта Костаная с районами</title>
+    <title>Карта Костанайской области с районами</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" integrity="sha512-oZ6dlCLcavpTnnhA8Mp8Zn4iNqJQHIVyNwKrb6UC6T5WQwhfZxVb5z4xNu3XsGQTOwInlGHE0d+X5ou6jR7ibw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         #map {
@@ -17,7 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" integrity="sha512-oDAlAkj9MEqxq2B2oHgb9+Hz9J/MbS9fKNEU2MyzVypSRV8UACX7EZwbWFLQIVWTXY2ZB2ZwJ2ZCu5B+/3WbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         // Инициализация карты
-        const map = L.map('map').setView([53.214, 63.624], 12); // Центр Костаная
+        const map = L.map('map').setView([53.214, 63.624], 7); // Центр Костанайской области
 
         // Добавление базового слоя карты
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -27,24 +27,64 @@
         // Координаты для полигонов районов
         const districts = [
             {
-                name: 'Район 1',
+                name: 'Костанайский район',
                 coordinates: [
-                    [53.217, 63.620],
-                    [53.220, 63.630],
-                    [53.215, 63.635],
-                    [53.210, 63.625]
+                    [53.214, 63.524],
+                    [53.314, 63.624],
+                    [53.214, 63.724],
+                    [53.114, 63.624]
                 ],
                 color: 'red'
             },
             {
-                name: 'Район 2',
+                name: 'Рудненский район',
                 coordinates: [
-                    [53.214, 63.640],
-                    [53.218, 63.650],
-                    [53.212, 63.660],
-                    [53.209, 63.650]
+                    [52.914, 63.324],
+                    [53.014, 63.424],
+                    [52.914, 63.524],
+                    [52.814, 63.424]
                 ],
                 color: 'blue'
+            },
+            {
+                name: 'Тарановский район',
+                coordinates: [
+                    [53.514, 63.824],
+                    [53.614, 63.924],
+                    [53.514, 64.024],
+                    [53.414, 63.924]
+                ],
+                color: 'green'
+            },
+            {
+                name: 'Аулиекольский район',
+                coordinates: [
+                    [53.014, 62.924],
+                    [53.114, 63.024],
+                    [53.014, 63.124],
+                    [52.914, 63.024]
+                ],
+                color: 'orange'
+            },
+            {
+                name: 'Карабалыкский район',
+                coordinates: [
+                    [52.814, 62.824],
+                    [52.914, 62.924],
+                    [52.814, 63.024],
+                    [52.714, 62.924]
+                ],
+                color: 'purple'
+            },
+            {
+                name: 'Денисовский район',
+                coordinates: [
+                    [53.114, 63.124],
+                    [53.214, 63.224],
+                    [53.114, 63.324],
+                    [53.014, 63.224]
+                ],
+                color: 'yellow'
             }
         ];
 
