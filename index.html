@@ -33,38 +33,50 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // Example flood prediction data (replace with actual data from Ventusky and regression)
-        const floodZones = [
-            { lat: 51.1694, lon: 71.4491, risk: 0.8 }, // Astana
-            { lat: 43.2389, lon: 76.8897, risk: 0.6 }, // Almaty
-            { lat: 44.8488, lon: 65.4823, risk: 0.9 }  // Shymkent
+        // Example data points for training (replace with actual data)
+        const dataPoints = [
+            { lat: 51.1694, lon: 71.4491, rainfall: 120, temp: 5, risk: 0.8 }, // Astana
+            { lat: 43.2389, lon: 76.8897, rainfall: 80, temp: 10, risk: 0.6 }, // Almaty
+            { lat: 44.8488, lon: 65.4823, rainfall: 150, temp: 3, risk: 0.9 }  // Shymkent
         ];
 
-        // Process and display flood zones
-        floodZones.forEach(zone => {
-            const color = zone.risk > 0.7 ? 'red' : 'orange';
+        // Linear regression function to predict flood risk
+        function predictRisk(rainfall, temp) {
+            // Example coefficients (replace with actual regression model results)
+            const coefRainfall = 0.005;
+            const coefTemp = -0.01;
+            const intercept = 0.3;
 
-            L.circle([zone.lat, zone.lon], {
+            let risk = intercept + coefRainfall * rainfall + coefTemp * temp;
+            return Math.max(0, Math.min(risk, 1)); // Clamp risk between 0 and 1
+        }
+
+        // Process data and display on the map
+        dataPoints.forEach(point => {
+            const predictedRisk = predictRisk(point.rainfall, point.temp);
+            const color = predictedRisk > 0.7 ? 'red' : 'orange';
+
+            L.circle([point.lat, point.lon], {
                 color: color,
                 fillColor: color,
                 fillOpacity: 0.5,
                 radius: 50000 // Radius in meters
             }).addTo(map)
-              .bindPopup(`Flood risk: ${(zone.risk * 100).toFixed(1)}%`);
+              .bindPopup(`Predicted flood risk: ${(predictedRisk * 100).toFixed(1)}%`);
 
             // Send notification to users in high-risk areas
-            if (zone.risk > 0.7) {
+            if (predictedRisk > 0.7) {
                 const notificationList = document.getElementById('notification-list');
                 const listItem = document.createElement('li');
-                listItem.textContent = `High flood risk detected near coordinates (${zone.lat.toFixed(2)}, ${zone.lon.toFixed(2)}).`;
+                listItem.textContent = `High flood risk detected near coordinates (${point.lat.toFixed(2)}, ${point.lon.toFixed(2)}).`;
                 notificationList.appendChild(listItem);
             }
         });
 
-        // Fetch and integrate Ventusky data (placeholder for actual integration)
+        // Placeholder for fetching real-time data from Ventusky
         async function fetchVentuskyData() {
-            // Implement API fetching and linear regression processing here
             console.log('Fetching data from Ventusky...');
+            // Implement API fetching and real-time integration here
         }
 
         fetchVentuskyData();
