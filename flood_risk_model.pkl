@@ -1,0 +1,37 @@
+# Код для обучения и сохранения модели flood_risk_model.pkl
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import pandas as pd
+import joblib
+
+# Загружаем данные (примерные данные, нужно заменить на реальные)
+data = {
+    'temperature': [10, 15, 20, 25, 30, 5, 8, 12],
+    'rainfall': [100, 200, 300, 400, 500, 50, 80, 150],
+    'river_level': [3, 6, 9, 12, 15, 2, 4, 5],
+    'flood_risk': [0, 1, 1, 1, 1, 0, 0, 0]  # 0 - низкий риск, 1 - высокий риск
+}
+
+# Создаем DataFrame из данных
+df = pd.DataFrame(data)
+
+# Разделяем данные на признаки и целевую переменную
+X = df[['temperature', 'rainfall', 'river_level']]
+y = df['flood_risk']
+
+# Разделяем данные на обучающую и тестовую выборки
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Создаем и обучаем модель RandomForest
+model = RandomForestClassifier(random_state=42)
+model.fit(X_train, y_train)
+
+# Проверяем точность на тестовой выборке
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy * 100:.2f}%")
+
+# Сохраняем модель в файл
+joblib.dump(model, "flood_risk_model.pkl")
+print("Модель сохранена в файл flood_risk_model.pkl")

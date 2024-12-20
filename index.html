@@ -1,236 +1,62 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная страница</title>
+    <title>Flood Risk Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css">
     <style>
-        /* Основные стили */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-			background-color: #ADD8E6;
-        }
-
-        /* Стиль баннера */
-        .banner {
-            background-color: #87CEFA;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
+        #map {
+            height: 100vh;
             width: 100%;
-        }
-
-        .auth-buttons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .auth-buttons button {
-            background-color: #fff;
-            border: none;
-            color: #4CAF50;
-            padding: 10px;
-            margin-left: 10px;
-            cursor: pointer;
-        }
-
-        /* Отступ между баннером и каруселью */
-        .section-spacing {
-            padding: 1px;
-        }
-
-        /* Стиль карусели */
-        .carousel {
-            position: relative;
-            width: 80%;
-            max-width: 1000px;
-            height: 600px;
-            overflow: hidden;
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-			z-index: 10;
-        }
-
-        .carousel-track {
-            display: flex;
-            transition: transform 0.6s ease; /* Плавный переход */
-        }
-
-        .carousel img {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 10px;
-            transition: transform 0.6s ease, filter 0.6s ease, opacity 0.6s ease;
-        }
-
-        /* Стили для центрального и боковых изображений */
-        .carousel img.center {
-            transform: scale(1);
-            filter: blur(0);
-            opacity: 1;
-        }
-        .carousel img.side {
-            transform: scale(0.8);
-            filter: blur(3px);
-            opacity: 0.6;
-        }
-
-        /* Кнопки карусели */
-        .carousel-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        .carousel-button.left {
-            left: 10px;
-        }
-
-        .carousel-button.right {
-            right: 10px;
-        }
-
-        /* Стили для информации */
-        .info-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px;
-            background-color: #f4f4f4;
-            text-align: left;
-            width: 80%;
-            max-width: 800px;
-        }
-
-        .info-section img {
-            width: 300px;
-            border-radius: 10px;
-            margin-left: 20px;
-        }
-
-        /* Стили для контактов */
-        .contact-section {
-            background-color: #333;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            width: 100%;
-			padding: 20px;
         }
     </style>
 </head>
 <body>
+    <div id="map"></div>
 
-    <!-- Баннер с кнопками входа и регистрации -->
-    <div class="banner">
-        <h1>Qabilet-edu</h1>
-        <div class="nav-button">
-            <a href="login.html" class="nav-button">Вход</a>
-			<audio id="click-sound" src="click-sound.mp3"></audio>
-            <a href="register.html" class="nav-button">Регистрация</a>
-			<audio id="click-sound" src="click-sound.mp3"></audio>
-        </div>
-    </div>
-
-    <!-- Отступ между баннером и каруселью -->
-    <div class="section-spacing"></div>
-
-    <!-- Карусель изображений с кнопками переключения -->
-    <div class="carousel">
-        <button class="carousel-button left" onclick="prevImage()">❮</button>
-        <div class="carousel-track">
-            <img src="zzz.jpeg" alt="Изображение 1" class="side">
-            <img src="karus.jpeg" alt="Изображение 2" class="center">
-            <img src="karusel1.jpeg" alt="Изображение 3" class="side">
-        </div>
-        <button class="carousel-button right" onclick="nextImage()">❯</button>
-    </div>
-
-    <!-- Секция с информацией, текст слева и картинка справа -->
-    <div class="info-section">
-        <div>
-            <h2>О нашем сайте</h2>
-            <p>Наша миссия — создавать инклюзивную и доступную среду, способствующую раскрытию потенциала каждого участника образовательного процесса. </p>
-			<p>цели нашего проекта:</p>
-    <p>1.	Доступность — устранения барьеров для учащихся с особыми потребностями.</p>
-	<p>2.	Персонализации — адаптации материалов под индивидуальные особенности.</p>
-	<p>3.	Интеграции — совместного обучения всех учеников.</p>
-	<p>4.	Развития навыков — помощи в освоении академических и жизненных компетенций.</p>
-        </div>
-        <img src="gg.jpeg" alt="Фотография о нас">
-    </div>
-
-    <!-- Блок контактов -->
-    <div class="contact-section">
-        <h3>Свяжитесь с нами</h3>
-        <p>Email: kakimzhanova.zh23@gmail.com</p>
-        <p>Телефон: +7 705 325 1496</p>
-		<p>inst:@zxannkk</p>
-    </div>
-
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <script>
-        // JavaScript для управления каруселью
-        let currentIndex = 1;
-        const track = document.querySelector('.carousel-track');
-        const images = document.querySelectorAll('.carousel img');
-        const totalImages = images.length;
+        // Инициализация карты
+        const map = L.map('map').setView([53.2103, 63.4500], 7);
 
-        function updateCarousel() {
-            // Смещаем трек так, чтобы центральное изображение находилось по центру
-            const offset = -(currentIndex - 1) * (images[0].clientWidth + 20); // 20px - отступы
-            track.style.transform = `translateX(${offset}px)`;
+        // Подключение слоя карты OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18
+        }).addTo(map);
 
-            images.forEach((img, index) => {
-                img.classList.remove('center', 'side');
-
-                // Назначаем центральное и боковые изображения
-                if (index === currentIndex) {
-                    img.classList.add('center');
-                } else {
-                    img.classList.add('side');
-                }
-            });
-        }
-
-        function nextImage() {
-            currentIndex = (currentIndex + 1) % totalImages;
-            updateCarousel();
-        }
-
-        function prevImage() {
-            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
-            updateCarousel();
-        }
-
-        updateCarousel();
-    const button = document.getElementById('nav-button');
-    const clickSound = document.getElementById('click-sound');
-
-    button.addEventListener('click', () => {
-        // Проигрывание звука
-        clickSound.play();
-
-        // Задержка перед переходом, чтобы звук успел проиграться
-        setTimeout(() => {
-            window.location.href = 'https://example.com'; // URL целевой страницы
-        }, 500); // Установите задержку в зависимости от длины звука (в миллисекундах)
-    });
-
+        // Загрузка зон риска из API
+        fetch('http://localhost:5000/zones')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    style: feature => {
+                        let color;
+                        switch (feature.properties.risk) {
+                            case 'high':
+                                color = 'red';
+                                break;
+                            case 'moderate':
+                                color = 'orange';
+                                break;
+                            case 'low':
+                                color = 'green';
+                                break;
+                            default:
+                                color = 'blue';
+                        }
+                        return { color, weight: 2 };
+                    },
+                    onEachFeature: (feature, layer) => {
+                        layer.bindPopup(
+                            `<strong>Region:</strong> ${feature.properties.region}<br>` +
+                            `<strong>Risk Level:</strong> ${feature.properties.risk}`
+                        );
+                    }
+                }).addTo(map);
+            })
+            .catch(err => console.error('Error loading zones:', err));
     </script>
-
 </body>
 </html>
+ь
