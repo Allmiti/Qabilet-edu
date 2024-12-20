@@ -1,102 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Карта Костанайской области с районами</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" integrity="sha512-oZ6dlCLcavpTnnhA8Mp8Zn4iNqJQHIVyNwKrb6UC6T5WQwhfZxVb5z4xNu3XsGQTOwInlGHE0d+X5ou6jR7ibw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>vv</title>
     <style>
-        #map {
-            height: 100vh;
+	/* Стили для выдвижной панели */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
         }
-    </style>
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .openbtn {
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #111;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+        }
+
+        .openbtn:hover {
+            background-color: #444;
+        }
+
+        .main-content {
+            margin-left: 20px;
+            padding: 20px;
+        }
+		</style>
 </head>
 <body>
-    <div id="map"></div>
+		 <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" onclick="closeNav()">×</a>
+        <a href="index.html">Главная</a>
+        <a href="profile.html">Профиль</a>
+		<a href="login.html">Вход</a>
+        <a href="register.html">Регестрация</a>
+    </div>
+	
+	<script>
+	// Функция для получения данных о погоде и паводках с Ventusky API
+async function getFloodData() {
+    const response = await fetch('https://api.ventusky.com/api/data/floods');
+    const data = await response.json();
+    return data;
+}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" integrity="sha512-oDAlAkj9MEqxq2B2oHgb9+Hz9J/MbS9fKNEU2MyzVypSRV8UACX7EZwbWFLQIVWTXY2ZB2ZwJ2ZCu5B+/3WbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        // Инициализация карты
-        const map = L.map('map').setView([53.214, 63.624], 7); // Центр Костанайской области
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
 
-        // Добавление базового слоя карты
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-        }).addTo(map);
-
-        // Координаты для полигонов районов
-        const districts = [
-            {
-                name: 'Костанайский район',
-                coordinates: [
-                    [53.214, 63.524],
-                    [53.314, 63.624],
-                    [53.214, 63.724],
-                    [53.114, 63.624]
-                ],
-                color: 'red'
-            },
-            {
-                name: 'Рудненский район',
-                coordinates: [
-                    [52.914, 63.324],
-                    [53.014, 63.424],
-                    [52.914, 63.524],
-                    [52.814, 63.424]
-                ],
-                color: 'blue'
-            },
-            {
-                name: 'Тарановский район',
-                coordinates: [
-                    [53.514, 63.824],
-                    [53.614, 63.924],
-                    [53.514, 64.024],
-                    [53.414, 63.924]
-                ],
-                color: 'green'
-            },
-            {
-                name: 'Аулиекольский район',
-                coordinates: [
-                    [53.014, 62.924],
-                    [53.114, 63.024],
-                    [53.014, 63.124],
-                    [52.914, 63.024]
-                ],
-                color: 'orange'
-            },
-            {
-                name: 'Карабалыкский район',
-                coordinates: [
-                    [52.814, 62.824],
-                    [52.914, 62.924],
-                    [52.814, 63.024],
-                    [52.714, 62.924]
-                ],
-                color: 'purple'
-            },
-            {
-                name: 'Денисовский район',
-                coordinates: [
-                    [53.114, 63.124],
-                    [53.214, 63.224],
-                    [53.114, 63.324],
-                    [53.014, 63.224]
-                ],
-                color: 'yellow'
-            }
-        ];
-
-        // Отрисовка полигонов на карте
-        districts.forEach(district => {
-            const polygon = L.polygon(district.coordinates, {
-                color: district.color,
-                fillOpacity: 0.5
-            }).addTo(map);
-
-            polygon.bindPopup(`<b>${district.name}</b>`);
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+		// Функция для отправки уведомлений пользователю
+function sendNotification(user) {
+    if ('Notification' in window && Notification.permission === "granted") {
+        new Notification("Предупреждение о паводке", {
+            body: `Ваш район (${user.name}) под угрозой паводка. Примите меры!`
         });
+    }
+}
+
+// Функция для проверки, находится ли пользователь в зоне паводка
+async function checkFloodRisk() {
+    const floodData = await getFloodData();
+    const usersSnapshot = await db.collection("users").get();
+    
+    usersSnapshot.forEach((doc) => {
+        const user = doc.data();
+        const userLat = user.location.lat;
+        const userLon = user.location.lon;
+        
+        // Пример проверки: если координаты пользователя находятся в опасной зоне (дистанция меньше 50 км)
+        floodData.zones.forEach((zone) => {
+            const zoneLat = zone.latitude;
+            const zoneLon = zone.longitude;
+            
+            const distance = getDistance(userLat, userLon, zoneLat, zoneLon);
+            if (distance < 50) {
+                sendNotification(user);
+            }
+        });
+    });
+}
+
+// Функция для вычисления расстояния между двумя точками (по формуле Haversine)
+function getDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Радиус Земли в км
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+// Запуск проверки рисков через заданный интервал (например, каждые 30 минут)
+setInterval(checkFloodRisk, 30 * 60 * 1000); // 30 минут
+// Запрос разрешения на получение уведомлений
+if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+}
+
     </script>
+
 </body>
 </html>

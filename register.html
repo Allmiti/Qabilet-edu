@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="style1.css">
+		/* Стили для выдвижной панели */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .openbtn {
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #111;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+        }
+
+        .openbtn:hover {
+            background-color: #444;
+        }
+
+        .main-content {
+            margin-left: 20px;
+            padding: 20px;
+        }
+		</style>
+</head>
+<body>
+		 <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" onclick="closeNav()">×</a>
+        <a href="index.html">Главная</a>
+        <a href="profile.html">Профиль</a>
+		<a href="login.html">Вход</a>
+        <a href="register.html">Регестрация</a>
+    </div>
+	<script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+    </script>
+
+</body>
+</html>
+<body>
+    <!-- Форма регистрации -->
+<form id="registerForm">
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" required>
+    
+    <label for="location">Ваше местоположение (широта, долгота):</label>
+    <input type="text" id="location" name="location" required>
+    
+    <button type="submit">Зарегистрироваться</button>
+</form>
+
+<script>
+    // Сохранение данных пользователя в Firebase
+    const db = firebase.firestore();
+
+    document.getElementById('registerForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const location = document.getElementById('location').value.split(',');
+
+        db.collection("users").add({
+            name: name,
+            location: { lat: parseFloat(location[0]), lon: parseFloat(location[1]) }
+        }).then(() => {
+            alert('Вы успешно зарегистрированы!');
+        }).catch(error => {
+            console.error('Ошибка при сохранении данных: ', error);
+        });
+    });
+</script>
+
+</html>
