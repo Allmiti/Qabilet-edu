@@ -59,74 +59,103 @@
 		<a href="login.html">Вход</a>
         <a href="register.html">Регестрация</a>
     </div>
-	
-	<script>
-	// Функция для получения данных о погоде и паводках с Ventusky API
-async function getFloodData() {
-    const response = await fetch('https://api.ventusky.com/api/data/floods');
-    const data = await response.json();
-    return data;
-}
+	<div class="map-wrapper">
+<div id="map"></div>
+</div>
 
-        function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-messaging.js"></script>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        #map { height: 100vh; }
+        .notification { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: #ffcccc; padding: 10px; border: 1px solid #ff0000; display: none; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="notification" id="notification">Flood Alert! Your area is at risk. Take necessary precautions.</div>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Initialize Map
+        const map = L.map('map').setView([53.2, 63.63], 8); // Centered on Kostanay Region
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // Add user location to the map
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const userLat = position.coords.latitude;
+                const userLon = position.coords.longitude;
+
+                const userMarker = L.marker([userLat, userLon]).addTo(map);
+                userMarker.bindPopup("You are here.").openPopup();
+
+                // Save user location to Firebase
+                db.collection("users").add({
+                    location: { lat: userLat, lon: userLon },
+                    timestamp: new Date()
+                });
+            }, error => {
+                console.error("Geolocation error:", error);
+            });
+        } else {
+            alert("Geolocation is not supported by your browser.");
         }
 
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
+        // Dummy flood zone for testing
+        const floodZone = L.circle([53.4, 63.6], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 50000
+        }).addTo(map);
+        floodZone.bindPopup("Flood Risk Zone");
+
+        // Check if user is in flood zone
+        function isUserInFloodZone(userLat, userLon, floodLat, floodLon, radius) {
+            const R = 6371; // Earth's radius in km
+            const dLat = (floodLat - userLat) * Math.PI / 180;
+            const dLon = (floodLon - userLon) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(userLat * Math.PI / 180) * Math.cos(floodLat * Math.PI / 180) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = R * c; // Distance in km
+            return distance <= (radius / 1000); // Convert radius to km
         }
-		// Функция для отправки уведомлений пользователю
-function sendNotification(user) {
-    if ('Notification' in window && Notification.permission === "granted") {
-        new Notification("Предупреждение о паводке", {
-            body: `Ваш район (${user.name}) под угрозой паводка. Примите меры!`
+
+        // Real-time updates for flood alerts
+        db.collection("users").onSnapshot(snapshot => {
+            snapshot.docs.forEach(doc => {
+                const user = doc.data();
+                const userLat = user.location.lat;
+                const userLon = user.location.lon;
+
+                const floodLat = 53.4; // Example flood zone center
+                const floodLon = 63.6;
+                const radius = 50000; // 50 km
+
+                if (isUserInFloodZone(userLat, userLon, floodLat, floodLon, radius)) {
+                    document.getElementById('notification').style.display = 'block';
+                } else {
+                    document.getElementById('notification').style.display = 'none';
+                }
+            });
         });
-    }
-}
-
-// Функция для проверки, находится ли пользователь в зоне паводка
-async function checkFloodRisk() {
-    const floodData = await getFloodData();
-    const usersSnapshot = await db.collection("users").get();
-    
-    usersSnapshot.forEach((doc) => {
-        const user = doc.data();
-        const userLat = user.location.lat;
-        const userLon = user.location.lon;
-        
-        // Пример проверки: если координаты пользователя находятся в опасной зоне (дистанция меньше 50 км)
-        floodData.zones.forEach((zone) => {
-            const zoneLat = zone.latitude;
-            const zoneLon = zone.longitude;
-            
-            const distance = getDistance(userLat, userLon, zoneLat, zoneLon);
-            if (distance < 50) {
-                sendNotification(user);
-            }
-        });
-    });
-}
-
-// Функция для вычисления расстояния между двумя точками (по формуле Haversine)
-function getDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Радиус Земли в км
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-}
-
-// Запуск проверки рисков через заданный интервал (например, каждые 30 минут)
-setInterval(checkFloodRisk, 30 * 60 * 1000); // 30 минут
-// Запрос разрешения на получение уведомлений
-if (Notification.permission !== "granted") {
-    Notification.requestPermission();
-}
-
     </script>
-
 </body>
 </html>
