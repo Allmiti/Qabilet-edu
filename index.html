@@ -49,6 +49,15 @@
             margin-left: 20px;
             padding: 20px;
         }
+		<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-messaging.js"></script>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        #map { height: 100vh; }
+        .notification { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: #ffcccc; padding: 10px; border: 1px solid #ff0000; display: none; }
 		</style>
 </head>
 <body>
@@ -63,16 +72,6 @@
 <div id="map"></div>
 </div>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-messaging.js"></script>
-    <style>
-        body { margin: 0; font-family: Arial, sans-serif; }
-        #map { height: 100vh; }
-        .notification { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: #ffcccc; padding: 10px; border: 1px solid #ff0000; display: none; }
-    </style>
 </head>
 <body>
     <div id="map"></div>
